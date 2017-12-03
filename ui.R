@@ -1,25 +1,27 @@
 library(markdown)
 library(plotly)
 navbarPage("Word Prediction Application",
-           tabPanel(
-                      mainPanel(
-                                includeMarkdown("Documentation.md")
-                              ) # mainPanel
-
-           ),
-           tabPanel("Propane Price App",
+           tabPanel("Word Prediction App",
                     sidebarLayout(
                       sidebarPanel(
-                        selectInput("iPeriodInput", "Select Period", format(ISOdate(2017,1:12,1),"%B")),
-                        textInput("iPriceInput", "Enter Crude Oil Price", 0),
-                        submitButton("Calculate")
-                        
+                        textInput("txtSentenceInput", "Enter a sentence to predict next word", "Hello"),
+                        selectInput("iNumber", "Select number of Words to predict", c(1,2,3,4),selected = 4)
                       ),
-                      mainPanel(
-                        plotlyOutput("plot1"),
-                        plotlyOutput("plot2"),
-                        tableOutput("predResults")
+                      mainPanel(h4("Predicted next word(s)"),
+                                tableOutput('table'),
+                                fluidRow( column(12,fluidRow(
+                                  column(6, plotOutput("barplot")),
+                                  column(6, h4("Frequency Word Cloud of Predicted Words"), plotOutput("wordcloudplot"))
+                                )
+                                )
+                                )
                         
                       )
                     )
+           ),
+           tabPanel("Help",
+                    mainPanel(
+                      includeMarkdown("Documentation.md")
+                    ) # mainPanel
+                    
            ))
